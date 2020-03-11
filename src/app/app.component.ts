@@ -1,10 +1,27 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
+
+import { Store, select } from "@ngrx/store";
+
+import { Observable } from "rxjs";
+import * as actions from "./contador/contador.actions";
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  selector: "app-root",
+  templateUrl: "./app.component.html",
+  styleUrls: []
 })
 export class AppComponent {
-  title = 'app-redux';
+  $contador: Observable<number>;
+
+  constructor(private store: Store<{ contador: number }>) {
+    this.$contador = this.store.pipe(select("contador"));
+  }
+
+  incrementar(): void {
+    this.store.dispatch(actions.incrementar());
+  }
+
+  decrementar(): void {
+    this.store.dispatch(actions.decrementar());
+  }
 }
